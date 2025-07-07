@@ -19,14 +19,79 @@
             </style>
         @endif
     </head>
-    <body class="flex items-center justify-center h-screen">
-        <form method="POST" action="{{ route('register.post') }}">
-            @csrf
-            <input name="name" type="text" placeholder="Name">
-            <input name="email" type="email" placeholder="Email">
-            <input name="password" type="password" placeholder="Password">
-            <input name="password_confirmation" type="password" placeholder="Confirm Password">
-            <button type="submit">Register</button>
-        </form>
+    <body class="bg-gray-50 dark:bg-gray-900 min-h-screen flex items-center justify-center">
+        <div class="max-w-md w-full p-8 border border-gray-300 rounded-xl">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-white">🎬 TechMere Assessment</h1>
+                <p class="mt-2 text-gray-600 dark:text-gray-400">Create your account</p>
+            </div>
+            
+            <form method="POST" action="{{ route('register.post') }}" class="space-y-6">
+                @csrf
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
+                    <input 
+                        id="name" 
+                        name="name" 
+                        type="text" 
+                        required 
+                        placeholder="Enter your name"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+                    >
+                </div>
+                
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+                    <input 
+                        id="email" 
+                        name="email" 
+                        type="email" 
+                        required 
+                        placeholder="Enter your email"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+                    >
+                </div>
+                
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+                    <input 
+                        id="password" 
+                        name="password" 
+                        type="password" 
+                        required 
+                        placeholder="Enter your password"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+                    >
+                </div>
+                
+                <div>
+                    <label for="password_confirmation" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Confirm Password</label>
+                    <input 
+                        id="password_confirmation" 
+                        name="password_confirmation" 
+                        type="password" 
+                        required 
+                        placeholder="Confirm your password"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+                    >
+                </div>
+
+                <button 
+                    type="submit" 
+                    class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-md hover:cursor-pointer"
+                >
+                    Sign up
+                </button>
+                
+                <div class="text-center">
+                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                        Already have an account? 
+                        <a href="{{ route('login') }}" class="text-blue-600 hover:text-blue-500 dark:text-blue-400">
+                            Sign in
+                        </a>
+                    </p>
+                </div>
+            </form>
+        </div>
     </body>
 </html>

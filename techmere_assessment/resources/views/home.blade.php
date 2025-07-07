@@ -19,13 +19,8 @@
             </style>
         @endif
     </head>
-    <body class="flex items-center justify-center h-screen">
-        <p>This is the home page</p>
-        <form action="{{ route('logout.post') }}" method="POST">
-            @csrf
-            <button>
-                Logout
-            </button>
-        </form>
+    <body class="bg-gray-50 dark:bg-gray-900 min-h-screen">
+        <!-- Include Header -->
+        @include('components.header')
     </body>
 </html>

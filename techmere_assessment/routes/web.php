@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
 /**
- * The root route.
+ * The root route
  */
 Route::get('/', function () {
     return view('home');
@@ -33,5 +33,3 @@ Route::post('/api/logout', [AuthController::class, 'logout'])->middleware('auth'
 Route::fallback(function () {
     return view('errors.404');
 });
-
-

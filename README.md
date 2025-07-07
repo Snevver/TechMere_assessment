@@ -1,76 +1,45 @@
 # TechMere Assessment
 
-A Laravel-based web application for movie management with user authentication.
+Simple movie list app where you can add movies and track what you've watched.
 
 ## Requirements
 
-- PHP 8.1 or higher
+- PHP 8.1+
 - Composer
 - Node.js and npm
-- MySQL database
 
 ## Installation
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd TechMere_assessment/techmere_assessment
-   ```
-
-2. **Install PHP dependencies**
+1. Clone and go to project folder
    ```bash
    composer install
-   ```
-
-3. **Install Node.js dependencies**
-   ```bash
    npm install
-   ```
-
-4. **Environment setup**
-   ```bash
    cp .env.example .env
    php artisan key:generate
-   ```
-
-5. **Database setup**
-   - Configure your database connection in `.env`
-   - Run migrations:
-   ```bash
-   php artisan migrate
-   ```
-
-6. **Build assets**
-   ```bash
+   php artisan migrate:fresh --seed
    npm run dev
-   ```
-
-7. **Start the development server**
-   ```bash
    php artisan serve
    ```
 
-The application will be available at `http://localhost:8000`
+Go to `http://localhost:8000` and login with:
+- Email: test@example.com
+- Password: password
 
-## Features
+## What it does
 
-- User registration and authentication
-- Login/logout functionality
-- Protected routes with middleware
-- Movie management interface
-- Responsive design with Tailwind CSS
+- Add movies to your personal list
+- Mark them as "want to watch" or "watched" 
+- Give ratings (1-5 stars)
+- Add genres to movies
+- Uses SQLite database (no setup needed)
+- Gets movie info from TMDB API
 
-## Routes
+## AI Usage
 
-- `/` - Home page (requires authentication)
-- `/login` - Login page
-- `/register` - Registration page
-
----
-
-## Usage of AI / copilot
-I used AI in some places (see the log.md for details) to enhance some of the features or help me code more efficient.
-I also used AI to make this README more clear.
+Used GitHub Copilot to help with:
+- Writing migrations and models faster
+- Fixing database connection issues  
+- CSS styling with Tailwind
 
 ---
 
