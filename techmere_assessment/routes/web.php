@@ -2,12 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Models\Genre;
 
 /**
  * The root route
  */
 Route::get('/', function () {
-    return view('home');
+    // Fetch all genres from the database
+    $genres = Genre::all();
+    return view('home', compact('genres'));
 })->middleware('auth')->name('home');
 
 /**
@@ -23,6 +26,14 @@ Route::get('/login', function () {
 Route::get('/register', function () {
     return view('register');
 })->name('register');
+
+/**
+ * Route to the user's movie list.
+ */
+Route::get('/my-list', function () {
+    // $movies = ?????? I will do this later:)
+    return view('myList');
+})->middleware('auth')->name('myList');
 
 // POST routes for login, logout and registration
 Route::post('/api/login', [AuthController::class, 'login'])->middleware('guest')->name('login.post');

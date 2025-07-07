@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Home - Film API</title>
+        <title>My List - Film API</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -19,133 +19,35 @@
             </style>
         @endif
     </head>
-    <body class="bg-gray-900 min-h-screen">
+    <body class="bg-gray-50 dark:bg-gray-900 min-h-screen">
         <!-- Include Header -->
         @include('components.header')
 
         <div class="max-w-4xl mx-auto px-4 py-16">
             <div class="text-center mb-12">
-                <h1 class="text-4xl font-bold text-gray-100 mb-4">Welcome, {{ Auth::user()->name }}!</h1>
-                <p class="text-xl text-gray-300">Manage your personal movie collection</p>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-8">
-                <!-- View your list -->
-                <div class="bg-gray-800 rounded-lg p-8 text-center border border-gray-700">
-                    <div class="text-5xl mb-4">🎬</div>
-                    <h2 class="text-2xl font-bold text-gray-100 mb-4">Your movie list</h2>
-                    <p class="text-gray-300 mb-6">View and manage your saved movies</p>
-                    <a href="{{ route('myList') }}" 
-                       class="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors hover:cursor-pointer">
-                        View your list
-                    </a>
-                </div>
-
-                <!-- Add new movie -->
-                <div class="bg-gray-800 rounded-lg p-8 text-center border border-gray-700">
-                    <div class="text-5xl mb-4">➕</div>
-                    <h2 class="text-2xl font-bold text-gray-100 mb-4">Add new movie</h2>
-                    <p class="text-gray-300 mb-6">Search and add movies to your collection</p>
-                    <button onclick="showAddMovieForm()" 
-                            class="inline-block px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors hover:cursor-pointer">
-                        Add movie
-                    </button>
-                </div>
-            </div>
-
-            <!-- Add movie form (Hidden by default) -->
-            <!-- !!! NOT FUNCTIONAL YET !!! -->
-            <div id="addMovieForm" class="hidden mt-12 bg-gray-800 rounded-lg p-8 border border-gray-700">
-                <h3 class="text-xl font-bold text-gray-100 mb-6 text-center">Add a new movie</h3>
-                <form method="POST" action="{{ route('myList') }}" class="max-w-md mx-auto">
-                    @csrf
-                    <div class="space-y-4">
-                        <!-- Title -->
-                        <div>
-                            <label for="title" class="block text-sm font-medium text-gray-300 mb-2">Movie Title</label>
-                            <input type="text" 
-                                   id="title" 
-                                   name="title" 
-                                   required 
-                                   placeholder="Enter movie title"
-                                   class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-gray-100">
-                        </div>
-
-                        <!-- Description -->
-                        <div>
-                            <label for="description" class="block text-sm font-medium text-gray-300 mb-2">Description</label>
-                            <textarea id="description" 
-                                      name="description" 
-                                      rows="4" 
-                                      placeholder="Enter movie description"
-                                      class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-gray-100"></textarea>
-                        </div>
-
-                        <!-- Genres -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Genres</label>
-                            <div class="grid grid-cols-2 gap-2">
-                                @foreach($genres as $genre)
-                                    <label class="inline-flex items-center text-sm text-gray-300">
-                                        <input type="checkbox" 
-                                               name="genres[]" 
-                                               value="{{ $genre->id }}"
-                                               class="mr-2 rounded bg-gray-700 border-gray-600 text-blue-600 focus:ring-blue-500">
-                                        {{ $genre->name }}
-                                    </label>
-                                @endforeach
-                            </div>
-                        </div>
-
-
-                        <!-- Year -->
-                        <div>
-                            <label for="year" class="block text-sm font-medium text-gray-300 mb-2">Year</label>
-                            <input type="number" 
-                                   id="year" 
-                                   name="year" 
-                                   min="1900" 
-                                   max="2030"
-                                   placeholder="e.g. 2023"
-                                   class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-gray-100">
-                        </div>
-
-                        <div>
-                            <label for="watched" class="inline-flex items-center text-sm font-medium text-gray-300 mb-2">
-                                <input type="checkbox" 
-                                       id="watched" 
-                                       name="watched" 
-                                       class="mr-2 leading-tight">
-                                Watched
-                            </label>
-                        </div>
-
-                        <div class="flex gap-4 pt-4">
-                            <button type="submit" 
-                                    class="flex-1 py-2 px-4 bg-green-600 text-white rounded-lg hover:bg-green-700 hover:cursor-pointer">
-                                Add movie
-                            </button>
-                            <button type="button" 
-                                    onclick="hideAddMovieForm()"
-                                    class="flex-1 py-2 px-4 bg-gray-600 text-white rounded-lg hover:bg-gray-700 hover:cursor-pointer">
-                                Cancel
-                            </button>
-                        </div>
-                    </div>
-                </form>
+                <h1 class="text-4xl font-bold text-gray-100 mb-4">{{ Auth::user()->name }}'s movie list</h1>
+                <p class="text-xl text-gray-300">View and manage your personal movie collection</p>
             </div>
         </div>
 
-        <script>
-            function showAddMovieForm() {
-                document.getElementById('addMovieForm').classList.remove('hidden');
-            }
-            
-            function hideAddMovieForm() {
-                document.getElementById('addMovieForm').classList.add('hidden');
-                document.getElementById('title').value = '';
-                document.getElementById('year').value = '';
-            }
-        </script>
+        <!-- Movie list -->
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {{-- @foreach ($movies as $movie)
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+                        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">{{ $movie->title }}</h2>
+                        <p class="text-gray-700 dark:text-gray-300 mb-4">{{ $movie->description }}</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Released: {{ $movie->release_date }}</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Rating: {{ $movie->rating }}</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Watched: {{ $movie->watched}}</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Genres:
+                            @foreach ($movie->genres as $genre)
+                                <span class="inline-block bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">{{ $genre->name }}</span>
+                            @endforeach
+                        </p>
+                    </div>
+                @endforeach --}}
+            </div>
+        </div>
     </body>
 </html>

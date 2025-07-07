@@ -22,10 +22,19 @@ class DatabaseSeeder extends Seeder
         // Create basic genres
         $genres = [
             ['name' => 'Action'],
+            ['name' => 'Adventure'],
             ['name' => 'Comedy'],
             ['name' => 'Drama'],
             ['name' => 'Horror'],
             ['name' => 'Romance'],
+            ['name' => 'Sci-Fi'],
+            ['name' => 'Thriller'],
+            ['name' => 'Documentary'],
+            ['name' => 'Animation'],
+            ['name' => 'Crime'],
+            ['name' => 'Fantasy'],
+            ['name' => 'Mystery'],
+            ['name' => 'War'],
         ];
 
         foreach ($genres as $genre) {
