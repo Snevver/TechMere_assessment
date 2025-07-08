@@ -65,6 +65,9 @@
             </div>
         </div>
 
+        <!-- Include Modal Component -->
+        @include('components.modal')
+
         @vite(['resources/js/myList.js'])
     </body>
 </html>

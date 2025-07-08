@@ -43,6 +43,7 @@ Route::post('/api/logout', [AuthController::class, 'logout'])->middleware('auth'
 Route::middleware('auth')->group(function () {
     Route::post('/api/save-movie', [App\Http\Controllers\MovieController::class, 'saveMovie'])->name('movie.save');
     Route::get('/api/get-movies', [App\Http\Controllers\MovieController::class, 'getMovies'])->name('movie.list');
+    Route::delete('/api/delete-movie/{id}', [App\Http\Controllers\MovieController::class, 'deleteMovie'])->name('movie.delete');
 });
 
 // Fallback route (route to the 404 page)

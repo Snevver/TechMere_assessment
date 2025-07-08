@@ -109,4 +109,36 @@ class MovieController extends Controller
             ], 500);
         }
     }
+
+    public function deleteMovie($id) {
+        Log::info("Deleting movie", [
+            'user_id' => Auth::id(),
+            'movie_id' => $id
+        ]);
+        
+        try {
+            $movie = UserMovie::where('user_id', Auth::id())->findOrFail($id);
+            $movie->delete();
+            
+            Log::info('Movie deleted successfully', [
+                'user_id' => Auth::id(),
+                'movie_id' => $id
+            ]);
+            
+            return response()->json([
+                'message' => 'Movie deleted successfully'
+            ]);
+            
+        } catch (\Exception $e) {
+            Log::error('Error deleting movie', [
+                'error' => $e->getMessage(),
+                'user_id' => Auth::id(),
+                'movie_id' => $id
+            ]);
+            
+            return response()->json([
+                'error' => 'Failed to delete movie'
+            ], 500);
+        }
+    }
 }

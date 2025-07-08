@@ -148,6 +148,9 @@
             </div>
         </div>
 
+        <!-- Include Modal Component -->
+        @include('components.modal')
+
         @vite(['resources/js/home.js'])
     </body>
 </html>
