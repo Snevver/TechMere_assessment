@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>Home - Film API</title>
 
@@ -54,11 +55,10 @@
             </div>
 
             <!-- Add movie form (Hidden by default) -->
-            <!-- !!! NOT FUNCTIONAL YET !!! -->
             <div id="addMovieForm" class="hidden mt-12 bg-gray-800 rounded-lg p-8 border border-gray-700">
                 <h3 class="text-xl font-bold text-gray-100 mb-6 text-center">Add a new movie</h3>
-                <form method="POST" action="{{ route('myList') }}" class="max-w-md mx-auto">
-                    @csrf
+                <!-- Remove the form element to prevent conflicts with JavaScript -->
+                <div class="max-w-md mx-auto">
                     <div class="space-y-4">
                         <!-- Title -->
                         <div>
@@ -97,7 +97,6 @@
                             </div>
                         </div>
 
-
                         <!-- Year -->
                         <div>
                             <label for="year" class="block text-sm font-medium text-gray-300 mb-2">Year</label>
@@ -120,9 +119,22 @@
                             </label>
                         </div>
 
+                        <div>
+                            <label for="rating" class="block text-sm font-medium text-gray-300 mb-2">Rating</label>
+                                <input type="number" 
+                                       id="rating" 
+                                       name="rating" 
+                                       min="1" 
+                                       max="5" 
+                                       placeholder="1-5"
+                                       class="mr-2 leading-tight bg-gray-700 border border-gray-600 text-gray-100 rounded-lg px-2 py-1 w-16">
+                            </label>
+                        </div>
+
                         <div class="flex gap-4 pt-4">
-                            <button type="submit" 
-                                    class="flex-1 py-2 px-4 bg-green-600 text-white rounded-lg hover:bg-green-700 hover:cursor-pointer">
+                            <button type="button" 
+                                    class="flex-1 py-2 px-4 bg-green-600 text-white rounded-lg hover:bg-green-700 hover:cursor-pointer"
+                                    onclick="saveMovie()">
                                 Add movie
                             </button>
                             <button type="button" 
@@ -132,20 +144,10 @@
                             </button>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
 
-        <script>
-            function showAddMovieForm() {
-                document.getElementById('addMovieForm').classList.remove('hidden');
-            }
-            
-            function hideAddMovieForm() {
-                document.getElementById('addMovieForm').classList.add('hidden');
-                document.getElementById('title').value = '';
-                document.getElementById('year').value = '';
-            }
-        </script>
+        @vite(['resources/js/home.js'])
     </body>
 </html>

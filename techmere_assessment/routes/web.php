@@ -31,7 +31,6 @@ Route::get('/register', function () {
  * Route to the user's movie list.
  */
 Route::get('/my-list', function () {
-    // $movies = ?????? I will do this later:)
     return view('myList');
 })->middleware('auth')->name('myList');
 
@@ -39,6 +38,12 @@ Route::get('/my-list', function () {
 Route::post('/api/login', [AuthController::class, 'login'])->middleware('guest')->name('login.post');
 Route::post('/api/register', [AuthController::class, 'register'])->middleware('guest')->name('register.post');
 Route::post('/api/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout.post');
+
+// Movie API routes
+Route::middleware('auth')->group(function () {
+    Route::post('/api/save-movie', [App\Http\Controllers\MovieController::class, 'saveMovie'])->name('movie.save');
+    Route::get('/api/get-movies', [App\Http\Controllers\MovieController::class, 'getMovies'])->name('movie.list');
+});
 
 // Fallback route (route to the 404 page)
 Route::fallback(function () {

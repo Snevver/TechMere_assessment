@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>My List - Film API</title>
 
@@ -32,22 +33,38 @@
 
         <!-- Movie list -->
         <div class="max-w-4xl mx-auto px-4">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {{-- @foreach ($movies as $movie)
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-                        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">{{ $movie->title }}</h2>
-                        <p class="text-gray-700 dark:text-gray-300 mb-4">{{ $movie->description }}</p>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">Released: {{ $movie->release_date }}</p>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">Rating: {{ $movie->rating }}</p>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">Watched: {{ $movie->watched}}</p>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">Genres:
-                            @foreach ($movie->genres as $genre)
-                                <span class="inline-block bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">{{ $genre->name }}</span>
-                            @endforeach
-                        </p>
-                    </div>
-                @endforeach --}}
+            <!-- Loading spinner -->
+            <div id="loading" class="text-center py-8">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                <p class="text-gray-600 dark:text-gray-400 mt-2">Loading your movies...</p>
+            </div>
+            
+            <!-- Movies grid container -->
+            <div id="movies-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 hidden">
+                <!-- Movies will be loaded in here -->
+            </div>
+            
+            <!-- Empty state -->
+            <div id="empty-state" class="text-center py-12 hidden">
+                <div class="text-gray-400 text-6xl mb-4">🎬</div>
+                <h3 class="text-xl font-semibold text-gray-600 dark:text-gray-400 mb-2">No movies in your list yet</h3>
+                <p class="text-gray-500 dark:text-gray-500 mb-6">Start building your movie collection by adding your first movie!</p>
+                <a href="/" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    Add Your First Movie
+                </a>
+            </div>
+            
+            <!-- Shown when error occurred -->
+            <div id="error-state" class="text-center py-12 hidden">
+                <div class="text-red-400 text-6xl mb-4">⚠️</div>
+                <h3 class="text-xl font-semibold text-red-600 dark:text-red-400 mb-2">Failed to load movies</h3>
+                <p class="text-gray-500 dark:text-gray-500 mb-6">There was an error loading your movie list. Please try again.</p>
+                <button onclick="loadMovies()" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    Try Again
+                </button>
             </div>
         </div>
+
+        @vite(['resources/js/myList.js'])
     </body>
 </html>

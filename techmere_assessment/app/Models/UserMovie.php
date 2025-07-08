@@ -12,6 +12,7 @@ class UserMovie extends Model
         'user_id',
         'title',
         'description',
+        'year',
         'status',
         'rating',
     ];
