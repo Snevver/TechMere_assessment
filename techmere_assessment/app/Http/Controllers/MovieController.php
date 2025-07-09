@@ -110,6 +110,11 @@ class MovieController extends Controller
         }
     }
 
+    /**
+     * Method to delete a movie
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deleteMovie($id) {
         Log::info("Deleting movie", [
             'user_id' => Auth::id(),
@@ -138,6 +143,72 @@ class MovieController extends Controller
             
             return response()->json([
                 'error' => 'Failed to delete movie'
+            ], 500);
+        }
+    }
+    
+    /**
+     * Method to update a movie
+     * @param Request $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateMovie(Request $request, $id) {
+        Log::info("Updating movie", [
+            'user_id' => Auth::id(),
+            'movie_id' => $id
+        ]);
+        
+        // Validate the request data
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'genres' => 'nullable|array',
+            'genres.*' => 'exists:genres,id',
+            'year' => 'nullable|integer|min:1900|max:2030',
+            'watched' => 'boolean',
+            'rating' => 'nullable|integer|min:1|max:10'
+        ]);
+        
+        try {
+            $movie = UserMovie::where('user_id', Auth::id())->findOrFail($id);
+            
+            // Update the movie record
+            $movie->update([
+                'title' => $validatedData['title'],
+                'description' => $validatedData['description'] ?? null,
+                'year' => $validatedData['year'] ?? null,
+                'status' => $validatedData['watched'] ? 'watched' : 'want_to_watch',
+                'rating' => $validatedData['watched'] ? ($validatedData['rating'] ?? null) : null,
+            ]);
+            
+            if (isset($validatedData['genres'])) {
+                $movie->genres()->sync($validatedData['genres']);
+            }
+            
+            Log::info('Movie updated successfully', [
+                'user_id' => Auth::id(),
+                'movie_id' => $id
+            ]);
+            
+            return response()->json([
+                'message' => 'Movie updated successfully',
+                'movie' => [
+                    'id' => $movie->id,
+                    'title' => $movie->title,
+                    'status' => $movie->status
+                ]
+            ]);
+            
+        } catch (\Exception $e) {
+            Log::error('Error updating movie', [
+                'error' => $e->getMessage(),
+                'user_id' => Auth::id(),
+                'movie_id' => $id
+            ]);
+            
+            return response()->json([
+                'error' => 'Failed to update movie'
             ], 500);
         }
     }

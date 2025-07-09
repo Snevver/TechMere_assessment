@@ -67,6 +67,7 @@
 
         <!-- Include Modal Component -->
         @include('components.modal')
+        @include('components.edit-modal')
 
         @vite(['resources/js/myList.js'])
     </body>

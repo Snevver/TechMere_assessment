@@ -78,7 +78,7 @@ function createMovieCard(movie) {
     const statusColor = movie.status === 'watched' ? 'text-green-600 dark:text-green-400' : 'text-yellow-600 dark:text-yellow-400';
     
     // Format the rating
-    const ratingHtml = movie.rating ? `<p class="text-sm text-gray-500 dark:text-gray-400 mb-1">Rating: ${movie.rating}/5 ⭐</p>` : '';
+    const ratingHtml = movie.rating ? `<p class="text-sm text-gray-500 dark:text-gray-400 mb-1">Rating: ${printStars(movie.rating)}</p>` : '';
 
     card.innerHTML = `
         <div class="flex-grow">
@@ -87,15 +87,20 @@ function createMovieCard(movie) {
             ${movie.description ? `<div class="max-h-20 overflow-y-auto mb-4"><p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">${movie.description}</p></div>` : ''}
             ${movie.year ? `<p class="text-sm text-gray-500 dark:text-gray-400 mb-1">Year: ${movie.year}</p>` : ''}
             ${ratingHtml}
-            ${genresHtml ? `<div class="mt-3"><p class="text-sm text-gray-500 dark:text-gray-400 mb-2">Genres:</p><div class="max-h-16 overflow-y-auto">${genresHtml}</div></div>` : ''}
+            ${genresHtml ? `<div class="mt-3"><p class="text-sm text-gray-500 dark:text-gray-400 mb-2">Genres:</p><div class="max-h-50 overflow-y-auto">${genresHtml}</div></div>` : ''}
         </div>
         <div class="mt-4 flex gap-2">
-            <button class="px-3 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors hover:cursor-pointer">Edit</button>
+            <button onclick="editMovie(${movie.id})" class="px-3 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors hover:cursor-pointer">Edit</button>
             <button onclick="deleteMovie(${movie.id})" class="px-3 py-2 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 transition-colors hover:cursor-pointer">Delete</button>
         </div>
     `;
     
     return card;
+}
+
+// Function to print stars based on rating
+function printStars(rating) {
+    return `${'⭐'.repeat(rating)}`;
 }
 
 // Function to delete a movie
@@ -128,8 +133,45 @@ async function deleteMovie(movieId) {
     });
 }
 
-// Make deleteMovie function globally available
+// Function to edit a movie
+async function editMovie(movieId) {
+    try {
+        // First, get the current movie data
+        const response = await fetch('/api/get-movies', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken || '',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            credentials: 'same-origin'
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        const movie = data.movies.find(m => m.id === movieId);
+        
+        if (!movie) {
+            showModal('Error', 'Movie not found.', 'error');
+            return;
+        }
+        
+        // Show edit modal with movie data
+        showEditModal(movieId, movie);
+        
+    } catch (error) {
+        console.error('Error fetching movie for edit:', error);
+        showModal('Error', 'Error loading movie data. Please try again.', 'error');
+    }
+}
+
+// Make functions globally available
+window.loadMovies = loadMovies;
 window.deleteMovie = deleteMovie;
+window.editMovie = editMovie;
 
 // Load movies when the page loads
 document.addEventListener('DOMContentLoaded', loadMovies);
