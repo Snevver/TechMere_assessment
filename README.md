@@ -1,6 +1,6 @@
 # TechMere Assessment
 
-Simple movie list app where you can add movies and track what you've watched.
+Movie list app where you can search for movies using the IMDB API. Besides that you can add your own movies, add them to your list, and track what you've watched.
 
 ## Requirements
 
@@ -50,12 +50,28 @@ Go to `http://localhost:8000` and register a new account or login.
 
 ## Features
 
+- Movie search using IMDB API (https://rest.imdbapi.dev/)
+  - Search through movies and TV shows
+  - Filter results by media type (Movies/TV Shows)
+  - Pagination with 5 items per page
+  - View ratings, year, and cover images
 - Clean movie cards with scrollable descriptions
 - Modal dialogs instead of browser alerts
 - Secure user authentication and authorization
 - Genre management and tagging
 - Movie status tracking and ratings
 - Responsive design that works on mobile
+
+## API Integration
+
+The app uses the IMDB API (https://rest.imdbapi.dev/) for searching movies and TV shows:
+- Endpoint: `/v2/search/titles?query={input}`
+- Returns detailed movie information including:
+  - Title and original title
+  - Release year
+  - Media type (movie/tvSeries)
+  - Cover images
+  - Ratings and vote counts
 
 ## AI Usage
 
@@ -67,6 +83,7 @@ Used GitHub Copilot throughout development as helping hand for:
 - CSS styling with Tailwind classes
 - Modal component creation and integration
 - Route configuration and middleware setup
+- IMDB API integration and response handling
 
 ---
 
