@@ -24,4 +24,4 @@
     </div>
 </div>
 
-@vite(['resources/js/modal.js'])
+@vite(['resources/js/app.js'])

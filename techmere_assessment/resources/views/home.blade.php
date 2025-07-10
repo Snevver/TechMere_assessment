@@ -151,6 +151,6 @@
         <!-- Include Modal Component -->
         @include('components.modal')
 
-        @vite(['resources/js/home.js'])
+        @vite(['resources/js/app.js'])
     </body>
 </html>

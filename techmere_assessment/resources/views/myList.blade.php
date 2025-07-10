@@ -69,6 +69,6 @@
         @include('components.modal')
         @include('components.edit-modal')
 
-        @vite(['resources/js/myList.js'])
+        @vite(['resources/js/app.js'])
     </body>
 </html>

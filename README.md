@@ -2,6 +2,8 @@
 
 Movie list app where you can search for movies using the IMDB API. Besides that you can add your own movies, add them to your list, and track what you've watched.
 
+The application is currently hosted online at [techmere.snevver.nl](https://techmere.snevver.nl)
+
 ## Requirements
 
 - PHP 8.1+

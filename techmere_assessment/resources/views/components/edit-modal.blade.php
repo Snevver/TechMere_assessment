@@ -59,4 +59,4 @@
     </div>
 </div>
 
-@vite(['resources/js/editModal.js'])
+@vite(['resources/js/app.js'])
