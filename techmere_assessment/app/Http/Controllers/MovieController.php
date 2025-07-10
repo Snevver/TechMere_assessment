@@ -212,4 +212,64 @@ class MovieController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * Search for movies using the IMDB API and paginate results.
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
+    public function searchMovies(Request $request)
+    {
+        $query = $request->input('query');
+        $page = $request->input('page', 1);
+        $mediaType = $request->input('media_type', 'all');
+
+        if (!$query) {
+            return view('overview', ['movies' => [], 'pagination' => null]);
+        }
+
+        $apiUrl = "https://rest.imdbapi.dev/v2/search/titles?query=" . urlencode($query) . "&page=" . $page;
+
+        Log::info('Fetching movies from API', [
+            'api_url' => $apiUrl,
+            'media_type' => $mediaType
+        ]);
+
+        try {
+            $client = new \GuzzleHttp\Client();
+            $response = $client->get($apiUrl);
+            $data = json_decode($response->getBody()->getContents(), true);
+
+            $allMovies = $data['titles'] ?? [];
+            
+            // Filter by media type if specified
+            if ($mediaType !== 'all') {
+                $allMovies = array_values(array_filter($allMovies, function($movie) use ($mediaType) {
+                    return isset($movie['type']) && $movie['type'] === $mediaType;
+                }));
+            }
+            
+            $totalResults = count($allMovies);
+            $offset = ($page - 1) * 5;
+            
+            // Reset page if offset is beyond total results
+            if ($offset >= $totalResults && $totalResults > 0) {
+                $page = ceil($totalResults / 5);
+                $offset = ($page - 1) * 5;
+            }
+            
+            $movies = array_slice($allMovies, $offset, 5);
+
+            $pagination = [
+                'current_page' => $page,
+                'total_pages' => ceil($totalResults / 5),
+                'query' => $query
+            ];
+
+            return view('overview', ['movies' => $movies, 'pagination' => $pagination]);
+        } catch (\Exception $e) {
+            Log::error("Error fetching movies: " . $e->getMessage());
+            return view('overview', ['movies' => [], 'pagination' => null]);
+        }
+    }
 }

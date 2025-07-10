@@ -34,6 +34,12 @@ Route::get('/my-list', function () {
     return view('myList');
 })->middleware('auth')->name('myList');
 
+/**
+ * Route to the movie overview page.
+ * This page allows users to search for movies using the TMDB API.
+ */
+Route::get('/overview', [App\Http\Controllers\MovieController::class, 'searchMovies'])->middleware('auth')->name('overview');
+
 // POST routes for login, logout and registration
 Route::post('/api/login', [AuthController::class, 'login'])->middleware('guest')->name('login.post');
 Route::post('/api/register', [AuthController::class, 'register'])->middleware('guest')->name('register.post');

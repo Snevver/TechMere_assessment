@@ -10,7 +10,7 @@
 
             <!-- Search bar for movies using the TMDB API -->
             <div class="flex-grow max-w-md">
-                <form method="GET" action="{{ route('myList') }}" class="flex items-center space-x-2">
+                <form method="GET" action="{{ route('overview') }}" class="flex items-center space-x-2">
                     <input 
                             type="text" 
                             name="query" 
